@@ -6,7 +6,7 @@ SecuScan is built for learning, defensive security workflows, and ethical testin
 
 ---
 
-# Before You Start
+## Before You Start
 
 * Start with a small, reviewable task if this is your first contribution.
 * Read `README.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md` before opening a pull request.
@@ -16,7 +16,7 @@ SecuScan is built for learning, defensive security workflows, and ethical testin
 
 ---
 
-# Good First Contribution Areas
+## Good First Contribution Areas
 
 * Documentation fixes, setup clarification, and onboarding polish
 * Frontend UX improvements in `frontend/src`
@@ -58,7 +58,7 @@ This starts:
 
 * Backend: `http://127.0.0.1:8000`
 * Frontend: `http://127.0.0.1:5173`
-* API Docs: `http://127.0.0.1:8000/docs`
+* API docs: `http://127.0.0.1:8000/docs`
 
 ---
 
@@ -66,7 +66,7 @@ This starts:
 
 ## Backend
 
-Python version: `python3` below must resolve to `3.11+`.
+Python version: `python3` below must resolve to `3.11` or newer.
 
 Check version:
 
@@ -80,12 +80,11 @@ If your system default is older, substitute the full path (e.g. `python3.11`) or
 PYTHON=/path/to/python3.11 ./setup.sh
 ```
 
-### Setup Commands
+### Backend Commands
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-
 pip install -r backend/requirements.txt
 pip install -r backend/requirements-dev.txt
 
@@ -101,7 +100,6 @@ python3 -m uvicorn backend.secuscan.main:app \
 
 ```bash
 cd frontend
-
 npm install
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
@@ -112,8 +110,6 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 This section explains how to run the backend test suite from a fresh checkout without touching the main development environment.
 
----
-
 ## 1. Prerequisites
 
 Make sure your machine has Python `3.11+`.
@@ -122,7 +118,7 @@ Make sure your machine has Python `3.11+`.
 python3 --version
 ```
 
-If the version shown is older than `3.11`, substitute the full path to a compatible interpreter (e.g. `python3.11`) wherever `python3` appears below.
+If older than `3.11`, use `python3.11` or `python3.12` explicitly.
 
 ---
 
@@ -136,14 +132,9 @@ From the repo root:
 
 This script automatically:
 
-* Creates an isolated virtual environment at `venv_tests/`
-* Installs dependencies from:
-
-  * `backend/requirements.txt`
-  * `backend/requirements-dev.txt`
-* Runs the full `testing/backend/` suite with `pytest`
-
-You do not need to activate any virtual environment manually.
+* Creates isolated environment `venv_tests/`
+* Installs dependencies
+* Runs all tests in `testing/backend/`
 
 ---
 
@@ -157,54 +148,60 @@ python -m pytest testing/backend/unit/test_models.py -v
 deactivate
 ```
 
-Replace `test_models.py` with whichever file you want to target.
+Replace `test_models.py` with your desired test file.
 
-* Unit tests: `testing/backend/unit/`
-* Integration tests: `testing/backend/integration/`
+Unit tests:
 
-> Run `./testing/test_python.sh` at least once before using this shortcut.
+```text
+testing/backend/unit/
+```
+
+Integration tests:
+
+```text
+testing/backend/integration/
+```
 
 ---
 
 ## 4. Requirements Files
 
-| File                           | Purpose                           |
-| ------------------------------ | --------------------------------- |
-| `backend/requirements.txt`     | Core runtime dependencies         |
-| `backend/requirements-dev.txt` | Test and development dependencies |
-
-Both files must be installed for the test suite to run correctly.
+| File                           | Purpose               |
+| ------------------------------ | --------------------- |
+| `backend/requirements.txt`     | Runtime dependencies  |
+| `backend/requirements-dev.txt` | Test/dev dependencies |
 
 ---
 
 ## 5. Common Dependency Issues
 
-### `ModuleNotFoundError`
+### ModuleNotFoundError
 
-The `venv_tests/` environment may be outdated.
-
-Fix:
+Delete `venv_tests/` and rerun:
 
 ```bash
-rm -rf venv_tests
 ./testing/test_python.sh
 ```
 
----
-
-### `python3` Resolves to an Older Version
-
-Check:
+### Wrong Python Version
 
 ```bash
 python3 --version
 ```
 
-Use `python3.11` or `python3.12` explicitly if needed.
+Use:
 
----
+```bash
+python3.11
+```
 
-### Permission Denied on Test Script
+or
+
+```bash
+python3.12
+```
+
+### Permission Denied
 
 ```bash
 chmod +x testing/test_python.sh
@@ -214,30 +211,46 @@ chmod +x testing/test_python.sh
 
 # Project Layout
 
-| Path               | Purpose                                          |
-| ------------------ | ------------------------------------------------ |
-| `backend/secuscan` | FastAPI routes, workflows, validation, reporting |
-| `frontend/src`     | React pages, scan flows, settings, tests         |
-| `plugins`          | Plugin metadata and parser helpers               |
-| `testing/backend`  | Backend unit and integration coverage            |
-| `frontend/testing` | Frontend unit and Playwright coverage            |
-| `.github`          | Templates and CI workflows                       |
+* `backend/secuscan`
+
+  * FastAPI routes, execution logic, workflows, validation, vault, reporting
+* `frontend/src`
+
+  * React pages, scan flows, settings, tests
+* `plugins`
+
+  * Plugin metadata, parser code, helpers
+* `testing/backend`
+
+  * Backend unit/integration tests
+* `frontend/testing`
+
+  * Frontend tests
+* `.github`
+
+  * Issue templates, PR templates, CI workflows
 
 ---
 
 # Development Workflow
 
-1. Fork the repository and create a branch from `main`
-2. Pick an issue or open one before starting large work
-3. Keep changes focused and reviewable
-4. Update tests and docs when behavior changes
-5. Open a PR with:
+1. Fork repository and create a branch from `main`
+2. Pick an issue or open one before large work
+3. Keep changes focused
+4. Recommended PR size:
+
+   * Under 50 files
+   * Under 1,000 lines changed
+5. Update tests/docs when behavior changes
+6. Open PR with:
 
    * Clear description
    * Linked issue
    * Screenshots for UI changes
 
-### Example Branch Names
+---
+
+## Example Branch Names
 
 ```text
 docs/improve-contributing-guide
@@ -249,7 +262,7 @@ feat/plugin-validation
 
 # Pull Request Format
 
-Recommended PR title format:
+Recommended PR titles:
 
 ```text
 docs: improve contributing guide
@@ -259,22 +272,16 @@ feat(frontend): add scan empty state
 
 Your PR should include:
 
-* Problem being solved
+* Problem description
 * Summary of approach
-* Linked issue references
-* Tests you ran
-* Screenshots/recordings for UI changes
-* Notes about docs, migrations, env vars, or breaking behavior
-
-Try to keep one PR focused on one problem.
+* Linked issues (`Closes #123`)
+* Tests run
+* Screenshots/recordings for UI
+* Docs/migration/environment notes if relevant
 
 ---
 
 # Contribution Scoring
-
-Every merged PR can be scored for GSSoC using labels applied by maintainers.
-
----
 
 ## Difficulty Labels
 
@@ -283,14 +290,10 @@ Every merged PR can be scored for GSSoC using labels applied by maintainers.
 * `level:advanced`
 * `level:critical`
 
----
-
 ## Quality Labels
 
 * `quality:clean`
 * `quality:exceptional`
-
----
 
 ## Type Bonus Labels
 
@@ -305,8 +308,6 @@ Every merged PR can be scored for GSSoC using labels applied by maintainers.
 * `type:bug`
 * `type:feature`
 
----
-
 ## Validation Labels
 
 * `gssoc:approved`
@@ -314,9 +315,26 @@ Every merged PR can be scored for GSSoC using labels applied by maintainers.
 * `gssoc:spam`
 * `gssoc:ai-slop`
 
+Mentor credit:
+
+```text
+mentor:username
+```
+
 ---
 
-## Contributor Score Formula
+# Contributor Points
+
+| Label                 | Points |
+| --------------------- | -----: |
+| `level:beginner`      | 20 pts |
+| `level:intermediate`  | 35 pts |
+| `level:advanced`      | 55 pts |
+| `level:critical`      | 80 pts |
+| `quality:clean`       |   x1.2 |
+| `quality:exceptional` |   x1.5 |
+
+Formula:
 
 ```text
 ((difficulty × quality) + type bonus)
@@ -324,7 +342,18 @@ Every merged PR can be scored for GSSoC using labels applied by maintainers.
 
 ---
 
-## Mentor Score Formula
+# Mentor Points
+
+| Label                 | Points |
+| --------------------- | -----: |
+| `level:beginner`      | 10 pts |
+| `level:intermediate`  | 20 pts |
+| `level:advanced`      | 30 pts |
+| `level:critical`      | 50 pts |
+| `quality:clean`       |     +5 |
+| `quality:exceptional` |    +10 |
+
+Formula:
 
 ```text
 (base points + quality bonus)
@@ -340,7 +369,7 @@ Preferred format:
 type(scope): short summary
 ```
 
-### Examples
+Examples:
 
 ```text
 feat(frontend): add task result empty state
@@ -348,7 +377,7 @@ fix(backend): reject invalid workflow payloads
 docs(readme): clarify local setup steps
 ```
 
-### Recommended Commit Types
+Recommended types:
 
 * `feat`
 * `fix`
@@ -357,45 +386,33 @@ docs(readme): clarify local setup steps
 * `refactor`
 * `chore`
 
-### Guidelines
+Guidelines:
 
-* Use imperative mood (`add`, `fix`, `update`)
-* Keep subject line under ~72 characters
-* Avoid vague messages like:
-
-  * `changes`
-  * `update code`
-  * `fix stuff`
+* Use imperative mood
+* Keep subject under ~72 chars
+* Avoid vague messages
 
 ---
 
 # Licensing Expectations
 
-By submitting a contribution, you agree that your changes can be distributed under the repository's MIT License.
+By contributing, you agree changes may be distributed under the MIT License.
 
-Please avoid:
+Avoid:
 
 * Copying incompatible licensed code
-* Adding unverified assets/snippets/templates
-* Introducing dependencies without checking license compatibility
-
-If unsure, ask in the issue or PR before merging.
+* Adding assets without permission checks
+* Adding dependencies without license validation
 
 ---
 
 # Test Expectations
-
-Run the smallest relevant test set for your change.
-
----
 
 ## Backend Tests
 
 ```bash
 ./testing/test_python.sh
 ```
-
----
 
 ## Frontend Unit Tests
 
@@ -404,8 +421,6 @@ cd frontend
 npm run test
 ```
 
----
-
 ## Frontend Production Build
 
 ```bash
@@ -413,15 +428,11 @@ cd frontend
 npm run build
 ```
 
----
-
 ## Backend API Smoke Tests
 
 ```bash
 ./testing/test_backend.sh
 ```
-
----
 
 ## Optional Frontend E2E
 
@@ -437,32 +448,26 @@ npm run e2e
 ## Python
 
 * Follow PEP 8
-* Prefer explicit, readable code
-* Use type hints where useful
-* Prefer small focused functions
-
----
+* Prefer readable code
+* Use type hints when useful
+* Keep validation close to boundaries
 
 ## Frontend
 
-* Use TypeScript and functional React components
+* Use TypeScript + functional React
 * Keep logic readable
 * Reuse shared UI patterns
-* Include accessible labels and error handling
-
----
+* Include accessibility handling
 
 ## Tests
 
 * Add/update tests when behavior changes
-* Keep fixtures focused and understandable
-
----
+* Keep fixtures simple
 
 ## Docs
 
-* Update contributor-facing docs when setup/workflow changes
-* Prefer concrete examples over generic instructions
+* Update contributor docs when setup/workflow changes
+* Prefer concrete examples
 
 ---
 
@@ -470,43 +475,41 @@ npm run e2e
 
 Typical expectations:
 
-* Initial maintainer response: within 3 business days
-* Follow-up review: within 2–4 business days
+* Initial review: within 3 business days
+* Follow-up review: 2–4 business days
 
-Large or security-sensitive PRs may take longer.
+Large/security-sensitive PRs may take longer.
 
-If a PR has been inactive for more than a week, a polite follow-up comment is acceptable.
+If no response after a week, a polite follow-up is okay.
 
 ---
 
 # Review Etiquette
 
-* Be kind, specific, and technical
-* Focus feedback on code/docs/behavior
-* Update the same PR when changes are requested
+* Be kind and technical
+* Focus on code/docs/behavior
+* Update same PR when changes requested
 * Inactive claimed issues may be reassigned
 
 ---
 
 # Need Help?
 
-* Use GitHub Issues for:
-
-  * Bugs
-  * Enhancements
-  * Task discussion
-
-* Use PR comments for implementation-specific review discussion
-
-For security-sensitive reports, follow `SECURITY.md`.
+* Use GitHub issues for bugs/features
+* Use PR comments for implementation discussion
+* For security reports, follow `SECURITY.md`
 
 ---
 
-# PR Size & Generated Artifacts
+Thank you for helping make SecuScan more useful, safer, and more welcoming to contributors.
 
-We use an advisory GitHub Actions workflow to help maintain manageable PR sizes.
+---
 
-Never commit these generated paths:
+# Frontend Generated Artifacts
+
+A lightweight GitHub Action warns if generated folders are committed.
+
+Never commit:
 
 ```text
 frontend/dist/
@@ -516,16 +519,9 @@ frontend/.vite/
 .vite/deps/
 ```
 
-If CI flags these folders, remove them using:
+If CI fails:
 
 ```bash
-git rm -r --cached frontend/playwright-report/ frontend/test-results/ frontend/dist/
-
+git rm --cached <file>
 echo 'frontend/dist/' >> .gitignore
-echo 'frontend/playwright-report/' >> .gitignore
-echo 'frontend/test-results/' >> .gitignore
 ```
-
----
-
-Thank you for helping make SecuScan more useful, safer, and more welcoming to contributors.
